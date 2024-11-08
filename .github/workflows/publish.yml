@@ -1,0 +1,37 @@
+name: publish
+
+on:
+  push:
+    branches: main
+
+jobs:
+  publish-docker-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      -
+        uses: actions/checkout@v4
+      -
+        name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '21'
+          distribution: 'corretto'
+      -
+        name: Build application
+        run: chmod +x ./gradlew && ./gradlew build -Dquarkus.package.jar.type=uber-jar
+      -
+        name: Login in ghcr
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      -
+        name: Build and Push Docker image
+        run: |
+          docker buildx create --use --name mybuilder
+          docker buildx build . --platform linux/amd64,linux/arm64 --tag ghcr.io/alves-dev/SyncLife-Health-NutriTrack:latest --push
+          docker buildx build . --platform linux/amd64,linux/arm64 --tag ghcr.io/alves-dev/synclife-health-nutritrack:$(date +%Y%m%d) --push
