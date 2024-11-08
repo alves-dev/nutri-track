@@ -6,6 +6,9 @@ on:
 
 jobs:
   publish-docker-image:
+    env:
+      IMAGE_NAME: ghcr.io/alves-dev/synclife-health-nutri-track
+      IMAGE_TAG: $(date +%Y%m%d)  # Cria uma tag com a data de execução
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -33,5 +36,5 @@ jobs:
         name: Build and Push Docker image
         run: |
           docker buildx create --use --name mybuilder
-          docker buildx build . --platform linux/amd64,linux/arm64 --tag ghcr.io/alves-dev/SyncLife-Health-NutriTrack:latest --push
-          docker buildx build . --platform linux/amd64,linux/arm64 --tag ghcr.io/alves-dev/synclife-health-nutritrack:$(date +%Y%m%d) --push
+          docker buildx build . --platform linux/amd64,linux/arm64 --tag ${{ env.IMAGE_NAME }}:latest --push
+          docker buildx build . --platform linux/amd64,linux/arm64 --tag ${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} --push
