@@ -25,7 +25,7 @@ public class RabbitMqListener {
     private MyConsumer consumer;
 
     @Inject
-    @ConfigProperty(name = "life.health.nutri-track.queue")
+    @ConfigProperty(name = "sync-life.health.nutri-track.queue")
     private String nutriTrackQueue;
 
     public void onApplicationStart(@Observes StartupEvent event) {

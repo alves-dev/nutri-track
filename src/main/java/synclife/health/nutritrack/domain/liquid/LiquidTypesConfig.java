@@ -9,7 +9,7 @@ import java.util.List;
 @ApplicationScoped
 public class LiquidTypesConfig {
 
-    @ConfigProperty(name = "life.health.nutri-track.liquids")
+    @ConfigProperty(name = "sync-life.health.nutri-track.liquids")
     String liquidsStr;
 
     private final List<LiquidType> liquids = new ArrayList<>();
