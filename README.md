@@ -1,4 +1,86 @@
-# nutri-track
+# NutriTrack
+
+## Mapear tudo aquilo que possa ser ingerido pelo corpo.
+
+### O que ele faz:
+- Registrar liquidos (Vitaminas)
+    - Pode ser ou não saudável para a saúde
+- Registrar solidos (comida)
+- Remedios/Suplementos
+- Definir metas de alimentação
+    - Quantidade de liquido que deve ser ingerido por dia
+    - Lembrar de tomar suplementos
+    - Outros
+
+### Modelagem
+- **V1**: [link](https://dbdiagram.io/d/NutriTrack-v1-6722ad3b2c337ee119f19e44)
+
+### Eventos
+
+__base event__
+```json
+{
+    "type": "EVENT_TYPE",
+    "person_id": "igor_alves",
+    "datetime": "2024-01-23T14:40",
+
+    "meta_data":{
+        "origin": "application_name",
+        "created_at": "2024-01-23T14:45"
+    }
+}
+```
+- **meta_data.origin**: Aplicação que lançou o evento
+- **meta_data.created_at**: Hora em que o evento foi lançado
+
+__liquid event__
+```json
+{
+    "type": "HEALTH.NUTRI_TRACK.LIQUID.V1",
+    "person_id": "igor_alves",
+    "datetime": "2024-01-23T14:40",
+    "liquid": "water",
+    "amount": 200,
+    "meta_data": {}
+}
+```
+- **amount**: Inteiro em ml
+
+__solid event__
+```json
+[{
+    "type": "HEALTH.NUTRI_TRACK.SOLID.V1",
+    "person_id": "igor_alves",
+    "datetime": "2024-01-23T14:40",
+    "meal": "Jantar",
+    "food": "arroz",
+    "weight": 200,
+    "meta_data": {}
+},
+{
+    "type": "HEALTH.NUTRI_TRACK.SOLID.V1",
+    "person_id": "igor_alves",
+    "datetime": "2024-01-23T14:40",
+    "meal": "Café da manha",
+    "food": "banana",
+    "amount": 2,
+    "meta_data": {}
+}]
+```
+- **weight**: Inteiro em gramas
+- **amount**: Inteiro em unidades
+
+-----
+- **Created on**: 2024-10-29 | **Created by**: Igor Alves
+- **Updated on**: 2024-11-02 | **Updated by**: Igor Alves
+
+
+
+-----
+-----
+-----
+-----
+-----
 
 Este projeto usa Quarkus, o Supersonic Subatomic Java Framework.
 

@@ -57,7 +57,7 @@ public class MyConsumer implements Consumer {
     public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
         String messageString = new String(body, StandardCharsets.UTF_8);
 
-        log.debug("Received: " + messageString);
+        log.debug("Received: {}", messageString);
 
         try {
             JsonNode node = objectMapper.readTree(messageString);

@@ -33,7 +33,7 @@ public class IntakeService {
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)
-    public void processEventFood(@Observes(during = AFTER_SUCCESS) final EventLiquid event) {
+    public void processEventLiquid(@Observes(during = AFTER_SUCCESS) final EventLiquid event) {
         LiquidIntake liquidIntake = new LiquidIntake(getLiquid(event.getLiquid()), event.getAmount(), event.getPersonId(), event.getDatetime());
         liquidIntake.persist();
     }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 
-// https://github.com/alves-dev/life/blob/main/events/README.md#todos-os-eventos-vao-ter-os-seguintes-campos
+// https://github.com/alves-dev/SyncLife/blob/main/events.md#todos-os-eventos-v%C3%A3o-ter-os-seguintes-campos
 public class EventBase {
     private EventType type;
 
