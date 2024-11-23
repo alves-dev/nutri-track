@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @ApplicationScoped
-public class MyConsumer implements Consumer {
+class MyConsumer implements Consumer {
 
     private static final Logger log = LoggerFactory.getLogger(MyConsumer.class);
 

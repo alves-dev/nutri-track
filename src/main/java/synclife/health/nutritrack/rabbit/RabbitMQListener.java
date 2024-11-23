@@ -14,9 +14,9 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 
 @ApplicationScoped
-public class RabbitMqListener {
+class RabbitMQListener {
 
-    private static final Logger log = LoggerFactory.getLogger(RabbitMqListener.class);
+    private static final Logger log = LoggerFactory.getLogger(RabbitMQListener.class);
 
     @Inject
     RabbitMQClient rabbitMQClient;
@@ -28,7 +28,7 @@ public class RabbitMqListener {
     @ConfigProperty(name = "sync-life.health.nutri-track.queue")
     private String nutriTrackQueue;
 
-    public void onApplicationStart(@Observes StartupEvent event) {
+    private void onApplicationStart(@Observes StartupEvent event) {
         setup();
     }
 
