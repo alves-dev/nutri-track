@@ -28,9 +28,6 @@ dependencies {
     // Json
     implementation 'io.quarkus:quarkus-resteasy-jackson'
 
-    // Swagger UI
-    implementation 'io.quarkus:quarkus-smallrye-openapi'
-
     //Test
     //testImplementation 'io.quarkus:quarkus-junit5'
     //testImplementation 'io.rest-assured:rest-assured'
