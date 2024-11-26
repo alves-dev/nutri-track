@@ -15,7 +15,7 @@ public class EventLiquid extends EventBase {
     @Override
     public String toString() {
         return super.toString() + " | " +
-                "EventLiquidFood{" +
+                "EventLiquid{" +
                 "liquid='" + liquid + '\'' +
                 ", amount=" + amount +
                 '}';

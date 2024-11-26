@@ -63,10 +63,7 @@ class MyConsumer implements Consumer {
             JsonNode node = objectMapper.readTree(messageString);
             String typeValue = node.get("type").asText();
 
-            String typeValueReplaced = typeValue.replace(".", "_");
-            messageString = messageString.replace(typeValue, typeValueReplaced);
-
-            Class<? extends EventBase> eventClass = EventType.valueOf(typeValueReplaced).getEventClass();
+            Class<? extends EventBase> eventClass = EventType.getEventClass(typeValue);
             EventBase event = objectMapper.readValue(messageString, eventClass);
 
             eventPub.fire(event);

@@ -10,6 +10,16 @@ public class EventMetadata {
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
+    public EventMetadata(String origin, LocalDateTime createdAt) {
+        this.origin = origin;
+        this.createdAt = createdAt;
+    }
+
+    protected EventMetadata() {
+        this.origin = "NutriTrack";
+        this.createdAt = LocalDateTime.now();
+    }
+
     public String getOrigin() {
         return origin;
     }

@@ -1,5 +1,6 @@
 package synclife.health.nutritrack.rabbit;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import io.quarkiverse.rabbitmqclient.RabbitMQClient;
 import io.quarkus.runtime.StartupEvent;
@@ -9,8 +10,7 @@ import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.nio.charset.StandardCharsets;
+import synclife.health.nutritrack.event.EventBase;
 
 @ApplicationScoped
 public class RabbitMQProducer {
@@ -19,6 +19,9 @@ public class RabbitMQProducer {
 
     @Inject
     RabbitMQClient rabbitMQClient;
+
+    @Inject
+    private ObjectMapper objectMapper;
 
     private Channel channel;
 
@@ -35,10 +38,11 @@ public class RabbitMQProducer {
         }
     }
 
-    public void publishEvent(String routingKey, String message) {
+    public <T extends EventBase> void publishEvent(String routingKey, T event) {
         try {
-            channel.basicPublish(exchange, routingKey, null, message.getBytes(StandardCharsets.UTF_8));
-            log.info("Published: {}", message);
+            byte[] body = objectMapper.writeValueAsBytes(event);
+            channel.basicPublish(exchange, routingKey, null, body);
+            log.info("Published: {}", event);
         } catch (Exception e) {
             log.error(e.toString());
         }

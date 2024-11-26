@@ -16,10 +16,14 @@ public class LiquidIntake extends IntakeEntity {
     private int amount;
 
     @Column(name = "healthy")
-    private Boolean healthy;
+    private boolean healthy;
 
-    protected LiquidIntake() {
-        super();
+    public int getAmount() {
+        return amount;
+    }
+
+    public boolean isHealthy() {
+        return healthy;
     }
 
     public LiquidIntake(LiquidType liquid, int amount, String personId, LocalDateTime datetime) {
@@ -27,5 +31,9 @@ public class LiquidIntake extends IntakeEntity {
         this.liquid = liquid.liquid();
         this.amount = amount;
         this.healthy = liquid.healthy();
+    }
+
+    protected LiquidIntake() {
+        super();
     }
 }
