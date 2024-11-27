@@ -26,9 +26,4 @@ public class LiquidTypesConfig {
         }
         return liquids;
     }
-
-    public List<String> getLiquidsNames(){
-        if (liquids.isEmpty()) getLiquids();
-        return liquids.stream().map(LiquidType::liquid).toList();
-    }
 }

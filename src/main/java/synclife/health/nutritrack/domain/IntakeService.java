@@ -1,5 +1,6 @@
 package synclife.health.nutritrack.domain;
 
+import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
 import jakarta.inject.Inject;
@@ -11,7 +12,8 @@ import synclife.health.nutritrack.domain.liquid.LiquidType;
 import synclife.health.nutritrack.domain.liquid.LiquidTypesConfig;
 import synclife.health.nutritrack.event.EventBase;
 import synclife.health.nutritrack.event.EventLiquid;
-import synclife.health.nutritrack.event.EventLiquidSummary;
+import synclife.health.nutritrack.event.EventLiquidAcceptableV1;
+import synclife.health.nutritrack.event.EventLiquidSummaryV1;
 import synclife.health.nutritrack.rabbit.RabbitMQProducer;
 
 import java.time.LocalDateTime;
@@ -24,7 +26,7 @@ public class IntakeService {
 
     private final Logger log = LoggerFactory.getLogger(IntakeService.class);
 
-    private final String ROUTING_KEY = "orchestrator.event-sync";
+    private final String ORCHESTRATOR_ROUTING_KEY = "orchestrator.event-sync";
 
     private final List<LiquidType> liquids;
     private final RabbitMQProducer rabbitMQProducer;
@@ -33,6 +35,10 @@ public class IntakeService {
     public IntakeService(LiquidTypesConfig config, RabbitMQProducer rabbitMQProducer) {
         this.liquids = config.getLiquids();
         this.rabbitMQProducer = rabbitMQProducer;
+    }
+
+    private void onApplicationStart(@Observes StartupEvent event) {
+        publishLiquidAcceptableEvent();
     }
 
     public void processEventBase(@Observes EventBase event) {
@@ -80,7 +86,13 @@ public class IntakeService {
                 .mapToInt(LiquidIntake::getAmount)
                 .sum();
 
-        EventLiquidSummary summary = new EventLiquidSummary(personId, totalHealth, totalUnhealthy);
-        rabbitMQProducer.publishEvent(ROUTING_KEY, summary);
+        EventLiquidSummaryV1 summary = new EventLiquidSummaryV1(personId, totalHealth, totalUnhealthy);
+        rabbitMQProducer.publishEvent(ORCHESTRATOR_ROUTING_KEY, summary);
+    }
+
+    private void publishLiquidAcceptableEvent() {
+        List<String> liquidsString = this.liquids.stream().map(LiquidType::liquid).toList();
+        EventLiquidAcceptableV1 event = new EventLiquidAcceptableV1(liquidsString);
+        rabbitMQProducer.publishEvent(ORCHESTRATOR_ROUTING_KEY, event);
     }
 }
