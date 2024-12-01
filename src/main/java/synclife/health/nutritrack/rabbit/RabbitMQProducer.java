@@ -30,19 +30,24 @@ public class RabbitMQProducer {
     private String exchange;
 
     private void onApplicationStart(@Observes StartupEvent event) {
+        setChannel();
+    }
+
+    public <T extends EventBase> void publishEvent(String routingKey, T event) {
+        if (channel == null) setChannel();
         try {
-            channel = rabbitMQClient.connect().createChannel();
-            log.debug("Channel created!");
+            byte[] body = objectMapper.writeValueAsBytes(event);
+            channel.basicPublish(exchange, routingKey, null, body);
+            log.info("Published: {}", event);
         } catch (Exception e) {
             log.error(e.toString());
         }
     }
 
-    public <T extends EventBase> void publishEvent(String routingKey, T event) {
+    private void setChannel() {
         try {
-            byte[] body = objectMapper.writeValueAsBytes(event);
-            channel.basicPublish(exchange, routingKey, null, body);
-            log.info("Published: {}", event);
+            channel = rabbitMQClient.connect().createChannel();
+            log.debug("Channel created!");
         } catch (Exception e) {
             log.error(e.toString());
         }
