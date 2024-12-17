@@ -10,10 +10,8 @@ import org.slf4j.LoggerFactory;
 import synclife.health.nutritrack.domain.liquid.LiquidIntake;
 import synclife.health.nutritrack.domain.liquid.LiquidType;
 import synclife.health.nutritrack.domain.liquid.LiquidTypesConfig;
-import synclife.health.nutritrack.event.EventBase;
-import synclife.health.nutritrack.event.EventLiquid;
-import synclife.health.nutritrack.event.EventLiquidAcceptableV1;
-import synclife.health.nutritrack.event.EventLiquidSummaryV1;
+import synclife.health.nutritrack.domain.solid.SolidIntake;
+import synclife.health.nutritrack.event.*;
 import synclife.health.nutritrack.rabbit.RabbitMQProducer;
 
 import java.time.LocalDateTime;
@@ -49,6 +47,11 @@ public class IntakeService {
         LiquidIntake liquidIntake = new LiquidIntake(getLiquid(event.getLiquid()), event.getAmount(), event.getPersonId(), event.getDatetime());
         saveEntity(liquidIntake);
         publishLiquidSummaryEvent(event.getPersonId(), event.getDatetime());
+    }
+
+    public void processEventSolid(@Observes(during = AFTER_SUCCESS) final EventSolid event) {
+        SolidIntake solidIntake = new SolidIntake(event.getMeal(), event.getFood(), event.getWeight(), event.getPersonId(), event.getDatetime());
+        saveEntity(solidIntake);
     }
 
     @Transactional(Transactional.TxType.REQUIRES_NEW)

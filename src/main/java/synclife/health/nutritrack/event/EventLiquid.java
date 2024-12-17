@@ -16,7 +16,7 @@ public class EventLiquid extends EventBase {
     public String toString() {
         return super.toString() + " | " +
                 "EventLiquid{" +
-                "liquid='" + liquid + '\'' +
+                "liquid=" + liquid +
                 ", amount=" + amount +
                 '}';
     }
