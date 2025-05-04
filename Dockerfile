@@ -1,8 +1,9 @@
-FROM amazoncorretto:21
+FROM quay.io/quarkus/quarkus-micro-image:2.0
 
-COPY build/nutri-track-2-runner.jar /app/application.jar
+COPY build/nutri-track-3-runner /app
 
-# Set the timezone to São Paulo
-RUN ln -snf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && echo America/Sao_Paulo > /etc/timezone
+COPY src/main/resources/application.properties /application.properties
 
-CMD java -jar app/application.jar
+ENV TZ=America/Sao_Paulo
+
+ENTRYPOINT ["/app"]
