@@ -2,11 +2,9 @@ package synclife.health.nutritrack.rabbit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
-import io.quarkiverse.rabbitmqclient.RabbitMQClient;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
-import jakarta.inject.Inject;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,21 +15,18 @@ public class RabbitMQProducer {
 
     private static final Logger log = LoggerFactory.getLogger(RabbitMQProducer.class);
 
-    @Inject
-    private RabbitMQConnection rabbitMQConnection;
-
-    @Inject
-    private ObjectMapper objectMapper;
+    private final RabbitMQConnection rabbitMQConnection;
+    private final ObjectMapper objectMapper;
+    private final String exchange;
 
     private Channel channel;
 
-    @Inject
-    @ConfigProperty(name = "sync-life.health.nutri-track.exchange")
-    private String exchange;
-
-    @Inject
-    @ConfigProperty(name = "quarkus.application.name")
-    private String applicationName;
+    public RabbitMQProducer(RabbitMQConnection rabbitMQConnection, ObjectMapper objectMapper,
+                            @ConfigProperty(name = "sync-life.health.nutri-track.exchange") String exchange) {
+        this.rabbitMQConnection = rabbitMQConnection;
+        this.objectMapper = objectMapper;
+        this.exchange = exchange;
+    }
 
     private void onApplicationStart(@Observes StartupEvent event) {
         setChannel();
