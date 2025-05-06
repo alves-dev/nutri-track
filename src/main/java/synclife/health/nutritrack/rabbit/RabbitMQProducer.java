@@ -29,6 +29,10 @@ public class RabbitMQProducer {
     @ConfigProperty(name = "sync-life.health.nutri-track.exchange")
     private String exchange;
 
+    @Inject
+    @ConfigProperty(name = "quarkus.application.name")
+    private String applicationName;
+
     private void onApplicationStart(@Observes StartupEvent event) {
         setChannel();
     }
@@ -46,7 +50,7 @@ public class RabbitMQProducer {
 
     private void setChannel() {
         try {
-            channel = rabbitMQClient.connect().createChannel();
+            channel = rabbitMQClient.connect(applicationName + "_producer").createChannel();
             log.debug("Channel created!");
         } catch (Exception e) {
             log.error(e.toString());

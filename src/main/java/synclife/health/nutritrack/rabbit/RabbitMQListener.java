@@ -28,13 +28,17 @@ class RabbitMQListener {
     @ConfigProperty(name = "sync-life.health.nutri-track.queue")
     private String nutriTrackQueue;
 
+    @Inject
+    @ConfigProperty(name = "quarkus.application.name")
+    private String applicationName;
+
     private void onApplicationStart(@Observes StartupEvent event) {
         setup();
     }
 
     private void setup() {
         try {
-            Channel channel = rabbitMQClient.connect().createChannel();
+            Channel channel = rabbitMQClient.connect(applicationName + "_listener").createChannel();
             channel.basicConsume(nutriTrackQueue, true, consumer);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
