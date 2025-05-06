@@ -40,6 +40,6 @@ jobs:
           name: nutri-track-3-runner
           path: ./build
 
-      - uses: alves-dev/actions/.github/workflows/build-docker.yml@v1
-        with:
-        image-name: ghcr.io/alves-dev/synclife-health-nutri-track
+    uses: alves-dev/actions/.github/workflows/build-docker.yml@v1
+    with:
+      image-name: ghcr.io/alves-dev/synclife-health-nutri-track
