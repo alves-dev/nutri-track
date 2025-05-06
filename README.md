@@ -3,7 +3,7 @@
 ## Mapear tudo aquilo que possa ser ingerido pelo corpo.
 
 ### O que ele faz:
-- Registrar liquidos (Vitaminas)
+- Registrar líquidos consumidos
     - Pode ser ou não saudável para a saúde
 - Registrar solidos (comida)
 - Remedios/Suplementos
