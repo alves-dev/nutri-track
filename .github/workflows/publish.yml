@@ -5,7 +5,7 @@ on:
     branches: main
 
 jobs:
-  build:
+  build-app:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,7 +22,24 @@ jobs:
       - name: Build application
         run: chmod +x ./gradlew && ./gradlew build -Dquarkus.package.type=native
 
-      - name: build docker image
-        uses: alves-dev/actions/.github/workflows/build-docker.yml@v1
+      - name: Upload built app
+        uses: actions/upload-artifact@v4
         with:
-          image-name: ghcr.io/alves-dev/synclife-health-nutri-track
+          name: nutri-track-3-runner
+          path: build/
+
+
+  build-docker-image:
+    needs: build-app
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download built app
+        uses: actions/download-artifact@v4
+        with:
+          name: nutri-track-3-runner
+          path: ./build
+
+      - uses: alves-dev/actions/.github/workflows/build-docker.yml@v1
+        with:
+        image-name: ghcr.io/alves-dev/synclife-health-nutri-track
