@@ -18,7 +18,7 @@ public class RabbitMQProducer {
     private static final Logger log = LoggerFactory.getLogger(RabbitMQProducer.class);
 
     @Inject
-    RabbitMQClient rabbitMQClient;
+    private RabbitMQConnection rabbitMQConnection;
 
     @Inject
     private ObjectMapper objectMapper;
@@ -50,7 +50,7 @@ public class RabbitMQProducer {
 
     private void setChannel() {
         try {
-            channel = rabbitMQClient.connect(applicationName + "_producer").createChannel();
+            channel = rabbitMQConnection.getConnection().createChannel();
             log.debug("Channel created!");
         } catch (Exception e) {
             log.error(e.toString());
