@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public abstract class EventBaseV3 {
     private UUID id;
 
     @JsonProperty("time")
-    private LocalDateTime time;
+    private ZonedDateTime time;
 
     @JsonProperty("datacontenttype")
     private String dataContentType;
@@ -43,7 +44,7 @@ public abstract class EventBaseV3 {
         this.type = type;
         this.source = new URI(URI);
         this.id = UUID.randomUUID();
-        this.time = LocalDateTime.now(); // TODO: colocar time zone
+        this.time = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
         this.dataContentType = "application/json";
         this.datasChema = datasChema;
         this.extensions = extensions;
