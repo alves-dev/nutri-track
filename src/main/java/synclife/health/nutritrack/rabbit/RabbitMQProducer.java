@@ -9,6 +9,7 @@ import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import synclife.health.nutritrack.event.EventBase;
+import synclife.health.nutritrack.event.v3.EventBaseV3;
 
 @ApplicationScoped
 public class RabbitMQProducer {
@@ -18,14 +19,17 @@ public class RabbitMQProducer {
     private final RabbitMQConnection rabbitMQConnection;
     private final ObjectMapper objectMapper;
     private final String exchange;
+    private final String exchangeV3;
 
     private Channel channel;
 
     public RabbitMQProducer(RabbitMQConnection rabbitMQConnection, ObjectMapper objectMapper,
-                            @ConfigProperty(name = "sync-life.health.nutri-track.exchange") String exchange) {
+                            @ConfigProperty(name = "sync-life.health.nutri-track.exchange") String exchange,
+                            @ConfigProperty(name = "sync-life.health.nutri-track.exchange.v3") String exchangeV3) {
         this.rabbitMQConnection = rabbitMQConnection;
         this.objectMapper = objectMapper;
         this.exchange = exchange;
+        this.exchangeV3 = exchangeV3;
     }
 
     private void onApplicationStart(@Observes StartupEvent event) {
@@ -33,6 +37,14 @@ public class RabbitMQProducer {
     }
 
     public <T extends EventBase> void publishEvent(String routingKey, T event) {
+        this.publishEvent(event, exchange, routingKey);
+    }
+
+    public <T extends EventBaseV3> void publishEventV3(T event) {
+        this.publishEvent(event, exchangeV3, event.getType().toJson());
+    }
+
+    private void publishEvent(Object event, String exchange, String routingKey){
         if (channel == null) setChannel();
         try {
             byte[] body = objectMapper.writeValueAsBytes(event);
