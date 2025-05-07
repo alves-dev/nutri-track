@@ -6,9 +6,7 @@ import java.util.Arrays;
 
 public enum EventTypeV3 {
     ORCHESTRATOR_SUBSCRIPTIONS_REQUESTED_V1("orchestrator.subscriptions.requested.v1", EventOrchestratorSubscriptionRequestedV1.class), // https://github.com/alves-dev/SyncLife/blob/main/events/model/orchestrator/subscriptions.requested.v1.json
-    HEALTH_NUTRITION_MEALS_V1("health.nutrition.meals.v1", EventOrchestratorSubscriptionRequestedV1.class); // https://github.com/alves-dev/SyncLife/blob/main/events/model/health/nutrition.meals.v1.json
-
-    //todo: mudar a classe do evento meals
+    HEALTH_NUTRITION_MEALS_V1("health.nutrition.meals.v1", EventHealthNutritionMealsV1.class); // https://github.com/alves-dev/SyncLife/blob/main/events/model/health/nutrition.meals.v1.json
 
     private final String eventText;
     private final Class<? extends EventBaseV3> eventClass;
