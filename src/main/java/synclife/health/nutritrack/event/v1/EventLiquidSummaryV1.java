@@ -1,9 +1,11 @@
 package synclife.health.nutritrack.event.v1;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import synclife.health.nutritrack.event.EventFlow;
 
 public class EventLiquidSummaryV1 extends EventBaseV1 {
+
     @JsonProperty("total_liquid")
     private TotalLiquid totalLiquid;
 
@@ -12,6 +14,7 @@ public class EventLiquidSummaryV1 extends EventBaseV1 {
         this.totalLiquid = new TotalLiquid(totalHealth, totalUnhealthy);
     }
 
+    @JsonIgnore
     @Override
     public EventFlow getEventFlow() {
         return super.getType().getEventFlow();

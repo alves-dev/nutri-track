@@ -1,11 +1,13 @@
 package synclife.health.nutritrack.event.v1;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import synclife.health.nutritrack.event.EventFlow;
 
 import java.util.List;
 
 public class EventLiquidAcceptableV1 extends EventBaseV1 {
+
     @JsonProperty("accepted_liquids")
     private List<String> acceptedLiquids;
 
@@ -22,6 +24,7 @@ public class EventLiquidAcceptableV1 extends EventBaseV1 {
                 '}';
     }
 
+    @JsonIgnore
     @Override
     public EventFlow getEventFlow() {
         return super.getType().getEventFlow();

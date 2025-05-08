@@ -1,5 +1,6 @@
 package synclife.health.nutritrack.event.v3;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import synclife.health.nutritrack.event.EventFlow;
 
@@ -24,6 +25,7 @@ public class EventOrchestratorSubscriptionRequestedV1 extends EventBaseV3 {
         this.data = new Data(SERVICE_ID, queueName, new Subscriptions(List.of(EventTypeV3.HEALTH_NUTRITION_MEALS_V1.toJson())));
     }
 
+    @JsonIgnore
     @Override
     public EventFlow getEventFlow() {
         return super.getType().getEventFlow();
