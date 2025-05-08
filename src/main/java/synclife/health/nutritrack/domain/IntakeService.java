@@ -1,23 +1,24 @@
 package synclife.health.nutritrack.domain;
 
-import io.quarkus.runtime.StartupEvent;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
-import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import synclife.health.nutritrack.domain.liquid.LiquidIntake;
 import synclife.health.nutritrack.domain.liquid.LiquidType;
 import synclife.health.nutritrack.domain.liquid.LiquidTypesConfig;
+import synclife.health.nutritrack.domain.solid.NutrientWeight;
 import synclife.health.nutritrack.domain.solid.SolidIntake;
 import synclife.health.nutritrack.event.v1.EventLiquid;
 import synclife.health.nutritrack.event.v1.EventLiquidAcceptableV1;
 import synclife.health.nutritrack.event.v1.EventLiquidSummaryV1;
 import synclife.health.nutritrack.event.v1.EventSolid;
+import synclife.health.nutritrack.event.v3.EventHealthNutritionMealsV1;
 import synclife.health.nutritrack.rabbit.RabbitMQProducer;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.enterprise.event.TransactionPhase.AFTER_SUCCESS;
@@ -25,21 +26,14 @@ import static jakarta.enterprise.event.TransactionPhase.AFTER_SUCCESS;
 @ApplicationScoped
 public class IntakeService {
 
-    private final Logger log = LoggerFactory.getLogger(IntakeService.class);
-
-    private final String ORCHESTRATOR_ROUTING_KEY = "orchestrator.event-sync";
+    private static final String ORCHESTRATOR_ROUTING_KEY = "orchestrator.event-sync";
 
     private final List<LiquidType> liquids;
     private final RabbitMQProducer rabbitMQProducer;
 
-    @Inject
     public IntakeService(LiquidTypesConfig config, RabbitMQProducer rabbitMQProducer) {
         this.liquids = config.getLiquids();
         this.rabbitMQProducer = rabbitMQProducer;
-    }
-
-    private void onApplicationStart(@Observes StartupEvent event) {
-        publishLiquidAcceptableEvent();
     }
 
     public void processEventLiquid(@Observes(during = AFTER_SUCCESS) final EventLiquid event) {
@@ -53,9 +47,34 @@ public class IntakeService {
         saveEntity(solidIntake);
     }
 
+    public void processEventHealthNutritionMealsV1(@Observes(during = AFTER_SUCCESS) final EventHealthNutritionMealsV1 event) {
+        LocalDateTime localDateTime = event.getData().datetime().withZoneSameInstant(ZoneId.of("America/Sao_Paulo")).toLocalDateTime();
+        List<SolidIntake> solidIntakeList = event.getData().foodList().stream().map(food ->
+                new SolidIntake(event.getData().meal(), food, event.getData().personId(), localDateTime)
+        ).toList();
+        saveListEntity(solidIntakeList);
+
+        List<NutrientWeight> nutrientWeightList = new ArrayList<>();
+        event.getData().weight().forEach((k, v) ->
+                nutrientWeightList.add(new NutrientWeight(event.getData().meal(), k, v, event.getData().personId(), localDateTime))
+        );
+        saveListEntity(nutrientWeightList);
+    }
+
+    public void publishLiquidAcceptableEvent() {
+        List<String> liquidsString = this.liquids.stream().map(LiquidType::liquid).toList();
+        EventLiquidAcceptableV1 event = new EventLiquidAcceptableV1(liquidsString);
+        rabbitMQProducer.publishEvent(ORCHESTRATOR_ROUTING_KEY, event);
+    }
+
     @Transactional(Transactional.TxType.REQUIRES_NEW)
     protected <T extends BaseEntity> void saveEntity(T entity) {
         entity.persist();
+    }
+
+    @Transactional(Transactional.TxType.REQUIRES_NEW)
+    protected <T extends BaseEntity> void saveListEntity(List<T> entities) {
+        PanacheEntityBase.persist(entities);
     }
 
     private LiquidType getLiquid(String liquid) {
@@ -90,11 +109,5 @@ public class IntakeService {
 
         EventLiquidSummaryV1 summary = new EventLiquidSummaryV1(personId, totalHealth, totalUnhealthy);
         rabbitMQProducer.publishEvent(ORCHESTRATOR_ROUTING_KEY, summary);
-    }
-
-    private void publishLiquidAcceptableEvent() {
-        List<String> liquidsString = this.liquids.stream().map(LiquidType::liquid).toList();
-        EventLiquidAcceptableV1 event = new EventLiquidAcceptableV1(liquidsString);
-        rabbitMQProducer.publishEvent(ORCHESTRATOR_ROUTING_KEY, event);
     }
 }

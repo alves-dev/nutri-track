@@ -25,4 +25,8 @@ public class EventHealthNutritionMealsV1 extends EventBaseV3 {
             @JsonProperty("weight") Map<String, Integer> weight
     ) {
     }
+
+    public Data getData() {
+        return data;
+    }
 }

@@ -25,6 +25,13 @@ public class SolidIntake extends IntakeEntity {
         this.weight = weight;
     }
 
+    public SolidIntake(String meal, String food, String personId, LocalDateTime datetime) {
+        super(personId, datetime);
+        this.meal = meal;
+        this.food = food;
+        this.weight = 0;
+    }
+
     protected SolidIntake() {
         super();
     }

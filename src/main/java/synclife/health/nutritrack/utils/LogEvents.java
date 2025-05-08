@@ -1,4 +1,4 @@
-package synclife.health.nutritrack.domain;
+package synclife.health.nutritrack.utils;
 
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Observes;
