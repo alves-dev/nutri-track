@@ -1,6 +1,7 @@
 package synclife.health.nutritrack.event.v3;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import synclife.health.nutritrack.event.EventSync;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,7 +12,7 @@ import java.util.Map;
 import java.util.UUID;
 
 // https://github.com/alves-dev/SyncLife/blob/main/events/events_v3.md
-public abstract class EventBaseV3 {
+public abstract class EventBaseV3 implements EventSync {
 
     private static final String URI = "/services/nutri-track";
 

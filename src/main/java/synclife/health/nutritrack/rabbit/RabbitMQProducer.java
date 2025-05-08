@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.rabbitmq.client.Channel;
 import io.quarkus.runtime.StartupEvent;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.event.Event;
 import jakarta.enterprise.event.Observes;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import synclife.health.nutritrack.event.EventBase;
+import synclife.health.nutritrack.event.v1.EventBaseV1;
+import synclife.health.nutritrack.event.EventSync;
 import synclife.health.nutritrack.event.v3.EventBaseV3;
 
 @ApplicationScoped
@@ -16,27 +18,29 @@ public class RabbitMQProducer {
 
     private static final Logger log = LoggerFactory.getLogger(RabbitMQProducer.class);
 
-    private final RabbitMQConnection rabbitMQConnection;
-    private final ObjectMapper objectMapper;
     private final String exchange;
     private final String exchangeV3;
+    private final RabbitMQConnection rabbitMQConnection;
+    private final ObjectMapper objectMapper;
+    private final Event<EventSync> eventPub;
 
     private Channel channel;
 
-    public RabbitMQProducer(RabbitMQConnection rabbitMQConnection, ObjectMapper objectMapper,
-                            @ConfigProperty(name = "sync-life.health.nutri-track.exchange") String exchange,
-                            @ConfigProperty(name = "sync-life.health.nutri-track.exchange.v3") String exchangeV3) {
-        this.rabbitMQConnection = rabbitMQConnection;
-        this.objectMapper = objectMapper;
+    public RabbitMQProducer(@ConfigProperty(name = "sync-life.health.nutri-track.exchange") String exchange,
+                            @ConfigProperty(name = "sync-life.health.nutri-track.exchange.v3") String exchangeV3,
+                            RabbitMQConnection rabbitMQConnection, ObjectMapper objectMapper, Event<EventSync> eventPub) {
         this.exchange = exchange;
         this.exchangeV3 = exchangeV3;
+        this.rabbitMQConnection = rabbitMQConnection;
+        this.objectMapper = objectMapper;
+        this.eventPub = eventPub;
     }
 
     private void onApplicationStart(@Observes StartupEvent event) {
         setChannel();
     }
 
-    public <T extends EventBase> void publishEvent(String routingKey, T event) {
+    public <T extends EventBaseV1> void publishEvent(String routingKey, T event) {
         this.publishEvent(event, exchange, routingKey);
     }
 
@@ -44,12 +48,12 @@ public class RabbitMQProducer {
         this.publishEvent(event, exchangeV3, event.getType().toJson());
     }
 
-    private void publishEvent(Object event, String exchange, String routingKey){
+    private <T extends EventSync> void publishEvent(T event, String exchange, String routingKey) {
         if (channel == null) setChannel();
         try {
             byte[] body = objectMapper.writeValueAsBytes(event);
             channel.basicPublish(exchange, routingKey, null, body);
-            log.info("Published: {}", event);
+            eventPub.fire(event);
         } catch (Exception e) {
             log.error(e.toString());
         }

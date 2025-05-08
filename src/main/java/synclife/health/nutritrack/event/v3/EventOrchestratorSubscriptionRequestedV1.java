@@ -1,6 +1,7 @@
 package synclife.health.nutritrack.event.v3;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import synclife.health.nutritrack.event.EventFlow;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -21,6 +22,11 @@ public class EventOrchestratorSubscriptionRequestedV1 extends EventBaseV3 {
                 new URI(URL).toURL(),
                 EventOrchestratorSubscriptionRequestedV1.getExtensions());
         this.data = new Data(SERVICE_ID, queueName, new Subscriptions(List.of(EventTypeV3.HEALTH_NUTRITION_MEALS_V1.toJson())));
+    }
+
+    @Override
+    public EventFlow getEventFlow() {
+        return super.getType().getEventFlow();
     }
 
     public record Data(

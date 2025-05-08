@@ -1,4 +1,4 @@
-package synclife.health.nutritrack.event;
+package synclife.health.nutritrack.event.v1;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

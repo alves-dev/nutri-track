@@ -1,6 +1,8 @@
-package synclife.health.nutritrack.event;
+package synclife.health.nutritrack.event.v1;
 
-public class EventLiquid extends EventBase {
+import synclife.health.nutritrack.event.EventFlow;
+
+public class EventLiquid extends EventBaseV1 {
     private String liquid;
     private int amount;
 
@@ -19,5 +21,10 @@ public class EventLiquid extends EventBase {
                 "liquid=" + liquid +
                 ", amount=" + amount +
                 '}';
+    }
+
+    @Override
+    public EventFlow getEventFlow() {
+        return super.getType().getEventFlow();
     }
 }

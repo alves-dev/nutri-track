@@ -1,6 +1,8 @@
-package synclife.health.nutritrack.event;
+package synclife.health.nutritrack.event.v1;
 
-public class EventSolid extends EventBase {
+import synclife.health.nutritrack.event.EventFlow;
+
+public class EventSolid extends EventBaseV1 {
     private String meal;
     private String food;
     private int weight;
@@ -25,5 +27,10 @@ public class EventSolid extends EventBase {
                 ", food=" + food +
                 ", weight=" + weight +
                 '}';
+    }
+
+    @Override
+    public EventFlow getEventFlow() {
+        return super.getType().getEventFlow();
     }
 }

@@ -11,7 +11,10 @@ import synclife.health.nutritrack.domain.liquid.LiquidIntake;
 import synclife.health.nutritrack.domain.liquid.LiquidType;
 import synclife.health.nutritrack.domain.liquid.LiquidTypesConfig;
 import synclife.health.nutritrack.domain.solid.SolidIntake;
-import synclife.health.nutritrack.event.*;
+import synclife.health.nutritrack.event.v1.EventLiquid;
+import synclife.health.nutritrack.event.v1.EventLiquidAcceptableV1;
+import synclife.health.nutritrack.event.v1.EventLiquidSummaryV1;
+import synclife.health.nutritrack.event.v1.EventSolid;
 import synclife.health.nutritrack.rabbit.RabbitMQProducer;
 
 import java.time.LocalDateTime;
@@ -37,10 +40,6 @@ public class IntakeService {
 
     private void onApplicationStart(@Observes StartupEvent event) {
         publishLiquidAcceptableEvent();
-    }
-
-    public void processEventBase(@Observes EventBase event) {
-        log.info(event.toString());
     }
 
     public void processEventLiquid(@Observes(during = AFTER_SUCCESS) final EventLiquid event) {

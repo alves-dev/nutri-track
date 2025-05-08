@@ -8,49 +8,50 @@ import com.rabbitmq.client.Envelope;
 import com.rabbitmq.client.ShutdownSignalException;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.enterprise.event.Event;
-import jakarta.inject.Inject;
-import synclife.health.nutritrack.event.EventBase;
-import synclife.health.nutritrack.event.EventType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import synclife.health.nutritrack.event.v1.EventBaseV1;
+import synclife.health.nutritrack.event.v1.EventTypeV1;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @ApplicationScoped
-class MyConsumer implements Consumer {
+class ConsumerV1 implements Consumer {
 
-    private static final Logger log = LoggerFactory.getLogger(MyConsumer.class);
+    private static final Logger log = LoggerFactory.getLogger(ConsumerV1.class);
 
-    @Inject
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
+    private final Event<EventBaseV1> eventPub;
 
-    @Inject
-    private Event<EventBase> eventPub;
+    ConsumerV1(ObjectMapper objectMapper, Event<EventBaseV1> eventPub) {
+        this.objectMapper = objectMapper;
+        this.eventPub = eventPub;
+    }
 
     @Override
     public void handleConsumeOk(String consumerTag) {
-
+        log.debug(consumerTag);
     }
 
     @Override
     public void handleCancelOk(String consumerTag) {
-
+        log.debug(consumerTag);
     }
 
     @Override
     public void handleCancel(String consumerTag) throws IOException {
-
+        log.debug(consumerTag);
     }
 
     @Override
     public void handleShutdownSignal(String consumerTag, ShutdownSignalException sig) {
-
+        log.debug(consumerTag);
     }
 
     @Override
     public void handleRecoverOk(String consumerTag) {
-
+        log.debug(consumerTag);
     }
 
     @Override
@@ -63,8 +64,8 @@ class MyConsumer implements Consumer {
             JsonNode node = objectMapper.readTree(messageString);
             String typeValue = node.get("type").asText();
 
-            Class<? extends EventBase> eventClass = EventType.getEventClass(typeValue);
-            EventBase event = objectMapper.readValue(messageString, eventClass);
+            Class<? extends EventBaseV1> eventClass = EventTypeV1.getEventClass(typeValue);
+            EventBaseV1 event = objectMapper.readValue(messageString, eventClass);
 
             eventPub.fire(event);
         } catch (Exception e) {

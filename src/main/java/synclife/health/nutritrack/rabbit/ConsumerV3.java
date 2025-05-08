@@ -31,27 +31,27 @@ class ConsumerV3 implements Consumer {
 
     @Override
     public void handleConsumeOk(String consumerTag) {
-        throw new UnsupportedOperationException("handleConsumeOk() cannot be performed because not implemented!");
+        log.debug(consumerTag);
     }
 
     @Override
     public void handleCancelOk(String consumerTag) {
-        throw new UnsupportedOperationException("handleCancelOk() cannot be performed because not implemented!");
+        log.debug(consumerTag);
     }
 
     @Override
     public void handleCancel(String consumerTag) throws IOException {
-        throw new UnsupportedOperationException("handleCancel() cannot be performed because not implemented!");
+        log.debug(consumerTag);
     }
 
     @Override
     public void handleShutdownSignal(String consumerTag, ShutdownSignalException sig) {
-        throw new UnsupportedOperationException("handleShutdownSignal() cannot be performed because not implemented!");
+        log.debug(consumerTag);
     }
 
     @Override
     public void handleRecoverOk(String consumerTag) {
-        throw new UnsupportedOperationException("handleRecoverOk() cannot be performed because not implemented!");
+        log.debug(consumerTag);
     }
 
     @Override

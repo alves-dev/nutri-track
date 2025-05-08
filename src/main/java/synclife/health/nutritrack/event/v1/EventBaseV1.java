@@ -1,12 +1,13 @@
-package synclife.health.nutritrack.event;
+package synclife.health.nutritrack.event.v1;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import synclife.health.nutritrack.event.EventSync;
 
 import java.time.LocalDateTime;
 
 // https://github.com/alves-dev/SyncLife/blob/main/events.md#todos-os-eventos-v%C3%A3o-ter-os-seguintes-campos
-public abstract class EventBase {
-    private EventType type;
+public abstract class EventBaseV1 implements EventSync {
+    private EventTypeV1 type;
 
     @JsonProperty("person_id")
     private String personId;
@@ -16,17 +17,17 @@ public abstract class EventBase {
     @JsonProperty("meta_data")
     private EventMetadata metadata;
 
-    public EventBase(EventType type, String personId) {
+    EventBaseV1(EventTypeV1 type, String personId) {
         this.type = type;
         this.personId = personId;
         this.datetime = LocalDateTime.now();
         this.metadata = new EventMetadata();
     }
 
-    protected EventBase() {
+    protected EventBaseV1() {
     }
 
-    public EventType getType() {
+    public EventTypeV1 getType() {
         return type;
     }
 
@@ -44,7 +45,7 @@ public abstract class EventBase {
 
     @Override
     public String toString() {
-        return "EventBase{" +
+        return "EventBaseV1{" +
                 "type=" + type +
                 ", personId=" + personId +
                 ", datetime=" + datetime +
