@@ -1,12 +1,14 @@
 package synclife.health.nutritrack.event.v3;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import synclife.health.nutritrack.event.EventFlow;
 
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 
+@RegisterForReflection
 public class EventHealthNutritionMealsV1 extends EventBaseV3 {
 
     @JsonProperty("data")

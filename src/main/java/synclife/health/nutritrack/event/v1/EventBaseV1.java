@@ -1,11 +1,13 @@
 package synclife.health.nutritrack.event.v1;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import synclife.health.nutritrack.event.EventSync;
 
 import java.time.LocalDateTime;
 
 // https://github.com/alves-dev/SyncLife/blob/main/events.md#todos-os-eventos-v%C3%A3o-ter-os-seguintes-campos
+@RegisterForReflection
 public abstract class EventBaseV1 implements EventSync {
     private EventTypeV1 type;
 

@@ -1,9 +1,11 @@
 package synclife.health.nutritrack.event.v1;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 
 import java.time.LocalDateTime;
 
+@RegisterForReflection
 public class EventMetadata {
     private String origin;
 

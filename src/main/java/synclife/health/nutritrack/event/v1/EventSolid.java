@@ -1,7 +1,9 @@
 package synclife.health.nutritrack.event.v1;
 
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import synclife.health.nutritrack.event.EventFlow;
 
+@RegisterForReflection
 public class EventSolid extends EventBaseV1 {
     private String meal;
     private String food;

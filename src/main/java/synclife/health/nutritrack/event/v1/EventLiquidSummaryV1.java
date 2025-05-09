@@ -2,8 +2,10 @@ package synclife.health.nutritrack.event.v1;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import synclife.health.nutritrack.event.EventFlow;
 
+@RegisterForReflection
 public class EventLiquidSummaryV1 extends EventBaseV1 {
 
     @JsonProperty("total_liquid")

@@ -1,11 +1,13 @@
 package synclife.health.nutritrack.event.v1;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import synclife.health.nutritrack.event.EventFlow;
 import synclife.health.nutritrack.event.EventType;
 
 import java.util.Arrays;
 
+@RegisterForReflection
 public enum EventTypeV1 implements EventType {
     HEALTH_NUTRI_TRACK_LIQUID_V1("HEALTH.NUTRI_TRACK.LIQUID.V1", EventFlow.CONSUMED,
             EventLiquid.class), // https://github.com/alves-dev/SyncLife/blob/main/events.md#event-healthnutri_trackliquidv1

@@ -1,11 +1,13 @@
 package synclife.health.nutritrack.event.v3;
 
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import synclife.health.nutritrack.event.EventFlow;
 import synclife.health.nutritrack.event.EventType;
 
 import java.util.Arrays;
 
+@RegisterForReflection
 public enum EventTypeV3 implements EventType {
     ORCHESTRATOR_SUBSCRIPTIONS_REQUESTED_V1("orchestrator.subscriptions.requested.v1", EventFlow.PRODUCED,
             EventOrchestratorSubscriptionRequestedV1.class), // https://github.com/alves-dev/SyncLife/blob/main/events/model/orchestrator/subscriptions.requested.v1.json
