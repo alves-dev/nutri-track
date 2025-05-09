@@ -2,6 +2,7 @@ package synclife.health.nutritrack.event.v3;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import synclife.health.nutritrack.event.EventFlow;
 
 import java.net.MalformedURLException;
@@ -10,6 +11,7 @@ import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Map;
 
+@RegisterForReflection
 public class EventOrchestratorSubscriptionRequestedV1 extends EventBaseV3 {
 
     private static final String URL = "https://raw.githubusercontent.com/alves-dev/SyncLife/main/events/schema/orchestrator/subscriptions.requested.v1.json";

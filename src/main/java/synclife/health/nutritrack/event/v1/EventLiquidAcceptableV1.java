@@ -2,10 +2,12 @@ package synclife.health.nutritrack.event.v1;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.quarkus.runtime.annotations.RegisterForReflection;
 import synclife.health.nutritrack.event.EventFlow;
 
 import java.util.List;
 
+@RegisterForReflection
 public class EventLiquidAcceptableV1 extends EventBaseV1 {
 
     @JsonProperty("accepted_liquids")
