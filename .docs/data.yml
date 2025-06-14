@@ -1,0 +1,24 @@
+project:
+  title: &project_title Nutri Track
+  description: &project_description Mapear tudo aquilo que possa ser ingerido pelo corpo.
+  status: &project_status Em desenvolvimento # desenvolvimento, Finalizado
+  license: &project_license GPL-3 # GPL-3 MIT
+detail:
+  version: v1
+  description: *project_description
+  website:
+  topics: &topics
+    - java
+    - myqsl
+    - docker
+    - rabbitmq
+    - sync-life
+head:
+  version: v1
+  title: *project_title
+  description: *project_description
+  status: *project_status
+  topics: *topics
+footer:
+  version: v1
+  license: *project_license
