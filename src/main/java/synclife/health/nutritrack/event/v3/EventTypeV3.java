@@ -10,7 +10,7 @@ import java.util.Arrays;
 @RegisterForReflection
 public enum EventTypeV3 implements EventType {
     ORCHESTRATOR_SUBSCRIPTIONS_REQUESTED_V1("orchestrator.subscriptions.requested.v1", EventFlow.PRODUCED,
-            EventOrchestratorSubscriptionRequestedV1.class), // https://github.com/alves-dev/SyncLife/blob/main/events/model/orchestrator/subscriptions.requested.v1.json
+            EventOrchestratorSubscriptionRequestedV1.class), // https://github.com/alves-dev/sync-life/blob/main/events/model/orchestrator/subscriptions.requested.v1.json
     HEALTH_NUTRITION_MEALS_V1("health.nutrition.meals.v1", EventFlow.CONSUMED,
             EventHealthNutritionMealsV1.class); // https://github.com/alves-dev/SyncLife/blob/main/events/model/health/nutrition.meals.v1.json
 

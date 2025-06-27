@@ -14,7 +14,7 @@ import java.util.Map;
 @RegisterForReflection
 public class EventOrchestratorSubscriptionRequestedV1 extends EventBaseV3 {
 
-    private static final String URL = "https://raw.githubusercontent.com/alves-dev/SyncLife/main/events/schema/orchestrator/subscriptions.requested.v1.json";
+    private static final String URL = "https://raw.githubusercontent.com/alves-dev/sync-life/main/events/schema/orchestrator/subscriptions.requested.v1.json";
     private static final String SERVICE_ID = "nutri-track";
 
     @JsonProperty("data")
