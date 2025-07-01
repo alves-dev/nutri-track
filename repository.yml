@@ -20,7 +20,7 @@ repository:                              # Obrigatório: definição básica do 
   version: v1
   title: Nutri Track                     # Nome do repositório (para humanos)
   description:                           # Descrição curta do repositório
-    Mapear tudo aquilo que possa ser ingerido pelo corpo
+    Micro serviço orientado a eventos, para mapear tudo aquilo que possa ser ingerido pelo corpo
   license: GPL-3                         # Licença do repositório [GPL-3, MIT, NOT-LICENSE]
   type: code                             # Indica o tipo de conteudo do repo [code, infra, documentation, data, profile]
   topics:                                # Tópicos para categorização (GitHub Topics, README, etc.)

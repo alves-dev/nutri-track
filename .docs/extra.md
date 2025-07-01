@@ -1,12 +1,10 @@
-### O que ele faz:
+`Projetado para ser:` Um projeto focado em registrar e monitorar tudo o que pode ser ingerido pelo corpo, incluindo líquidos, sólidos (comidas), remédios e suplementos. O sistema permite definir metas de alimentação, como quantidade de líquido a ser ingerido por dia, lembretes para tomar suplementos e outras funcionalidades relacionadas à saúde alimentar.
+
+### O que ele faz atualmente:
 - Registrar líquidos consumidos
     - Pode ser ou não saudável para a saúde
-- Registrar solidos (comida)
-- Remedios/Suplementos
-- Definir metas de alimentação
-    - Quantidade de liquido que deve ser ingerido por dia
-    - Lembrar de tomar suplementos
-    - Outros
+- Registrar alimentos sólidos
+
 
 ### Modelagem
 - **V1**: [link](https://dbdiagram.io/d/NutriTrack-v1-6722ad3b2c337ee119f19e44)
