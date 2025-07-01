@@ -6,7 +6,7 @@ on:
 
 jobs:
   tasks:
-    uses: alves-dev/actions/.github/workflows/sonar.yml@latest
+    uses: alves-dev/actions/.github/workflows/sonar.yml@develop
     with:
       repo-name: ${{ github.event.repository.name }}
     secrets:
