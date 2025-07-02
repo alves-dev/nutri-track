@@ -26,8 +26,8 @@ public class RabbitMQProducer {
 
     private Channel channel;
 
-    public RabbitMQProducer(@ConfigProperty(name = "sync-life.health.nutri-track.exchange") String exchange,
-                            @ConfigProperty(name = "sync-life.health.nutri-track.exchange.v3") String exchangeV3,
+    public RabbitMQProducer(@ConfigProperty(name = "nutri-track.exchange") String exchange,
+                            @ConfigProperty(name = "nutri-track.exchange.v3") String exchangeV3,
                             RabbitMQConnection rabbitMQConnection, ObjectMapper objectMapper, Event<EventSync> eventPub) {
         this.exchange = exchange;
         this.exchangeV3 = exchangeV3;

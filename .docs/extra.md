@@ -1,12 +1,10 @@
-### O que ele faz:
+`Projetado para ser:` Um projeto focado em registrar e monitorar tudo o que pode ser ingerido pelo corpo, incluindo líquidos, sólidos (comidas), remédios e suplementos. O sistema permite definir metas de alimentação, como quantidade de líquido a ser ingerido por dia, lembretes para tomar suplementos e outras funcionalidades relacionadas à saúde alimentar.
+
+### O que ele faz atualmente:
 - Registrar líquidos consumidos
     - Pode ser ou não saudável para a saúde
-- Registrar solidos (comida)
-- Remedios/Suplementos
-- Definir metas de alimentação
-    - Quantidade de liquido que deve ser ingerido por dia
-    - Lembrar de tomar suplementos
-    - Outros
+- Registrar alimentos sólidos
+
 
 ### Modelagem
 - **V1**: [link](https://dbdiagram.io/d/NutriTrack-v1-6722ad3b2c337ee119f19e44)
@@ -69,7 +67,7 @@ __solid event__
 
 -----
 -----
------
+
 -----
 -----
 
@@ -124,27 +122,3 @@ Ou, se você não tiver o GraalVM instalado, você pode executar a compilação 
 Você pode então executar seu executável nativo com: `./build/nutri-track-1.0.0-SNAPSHOT-runner`
 Se você quiser saber mais sobre como construir executáveis nativos, consulte <https://quarkus.io/guides/gradle-tooling>.
 
-## Related Guides
-
-- REST ([guide](https://quarkus.io/guides/rest)): A Jakarta REST implementation utilizing build time processing and Vert.x. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it.
-- Flyway ([guide](https://quarkus.io/guides/flyway)): Handle your database schema migrations
-- REST Jackson ([guide](https://quarkus.io/guides/rest#json-serialisation)): Jackson serialization support for Quarkus REST. This extension is not compatible with the quarkus-resteasy extension, or any of the extensions that depend on it
-- Hibernate ORM with Panache ([guide](https://quarkus.io/guides/hibernate-orm-panache)): Simplify your persistence code for Hibernate ORM via the active record or the repository pattern
-- JDBC Driver - MySQL ([guide](https://quarkus.io/guides/datasource)): Connect to the MySQL database via JDBC
-
-## Provided Code
-
-### Hibernate ORM
-
-Create your first JPA entity
-
-[Related guide section...](https://quarkus.io/guides/hibernate-orm)
-
-[Related Hibernate with Panache section...](https://quarkus.io/guides/hibernate-orm-panache)
-
-
-### REST
-
-Easily start your REST Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)

@@ -18,7 +18,7 @@ public class PublishStart {
     private final IntakeService intakeService;
 
     public PublishStart(RabbitMQProducer rabbitMQProducer,
-                        @ConfigProperty(name = "sync-life.health.nutri-track.queue.v3") String nutriTrackQueueV3, IntakeService intakeService) {
+                        @ConfigProperty(name = "nutri-track.queue.v3") String nutriTrackQueueV3, IntakeService intakeService) {
         this.rabbitMQProducer = rabbitMQProducer;
         this.nutriTrackQueueV3 = nutriTrackQueueV3;
         this.intakeService = intakeService;

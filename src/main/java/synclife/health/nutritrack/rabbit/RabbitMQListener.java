@@ -27,8 +27,8 @@ class RabbitMQListener {
     private Channel channelV3;
 
     RabbitMQListener(RabbitMQConnection rabbitMQConnection, ConsumerV1 consumer, ConsumerV3 consumerV3,
-                     @ConfigProperty(name = "sync-life.health.nutri-track.queue") String nutriTrackQueue,
-                     @ConfigProperty(name = "sync-life.health.nutri-track.queue.v3") String nutriTrackQueueV3) {
+                     @ConfigProperty(name = "nutri-track.queue") String nutriTrackQueue,
+                     @ConfigProperty(name = "nutri-track.queue.v3") String nutriTrackQueueV3) {
         this.rabbitMQConnection = rabbitMQConnection;
         this.consumer = consumer;
         this.consumerV3 = consumerV3;
