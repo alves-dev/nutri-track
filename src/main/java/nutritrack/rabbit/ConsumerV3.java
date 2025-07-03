@@ -24,9 +24,15 @@ class ConsumerV3 implements Consumer {
     private final ObjectMapper objectMapper;
     private final Event<EventBaseV3> eventPub;
 
+    private Runnable restartCallback;
+
     ConsumerV3(ObjectMapper objectMapper, Event<EventBaseV3> eventPub) {
         this.objectMapper = objectMapper;
         this.eventPub = eventPub;
+    }
+
+    public void setRestartCallback(Runnable callback) {
+        this.restartCallback = callback;
     }
 
     /**
@@ -52,8 +58,17 @@ class ConsumerV3 implements Consumer {
      */
     @Override
     public void handleCancel(String consumerTag) throws IOException {
-        log.warn("⚠️ Consumer cancelado pelo broker: {}", consumerTag);
-        // TODO: aqui pode iniciar lógica para recriar o canal/consumer
+        log.warn("⚠️ Consumer canceled by the broker: {}", consumerTag);
+
+        if (restartCallback != null) {
+            try {
+                log.info("Sleeping for 4 seconds");
+                Thread.sleep(4000);
+                restartCallback.run();
+            } catch (Exception e) {
+                log.error("Error when trying to restart the consumer v3", e);
+            }
+        }
     }
 
     /**

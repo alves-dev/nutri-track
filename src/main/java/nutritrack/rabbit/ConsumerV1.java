@@ -52,7 +52,7 @@ class ConsumerV1 implements Consumer {
      */
     @Override
     public void handleCancel(String consumerTag) throws IOException {
-        log.warn("⚠️ Consumer cancelado pelo broker: {}", consumerTag);
+        log.warn("⚠️ Consumer canceled by the broker: {}", consumerTag);
         // TODO: aqui pode iniciar lógica para recriar o canal/consumer
     }
 
