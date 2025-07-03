@@ -4,8 +4,8 @@ plugins {
 }
 
 base {
-    group = 'sync.health'
-    version = '3'
+    group = 'health'
+    version = '4'
 }
 
 repositories {
