@@ -45,7 +45,7 @@ class RabbitMQListener {
         try {
             this.channelV1 = rabbitMQConnection.getConnection().createChannel();
             channelV1.basicConsume(nutriTrackQueue, true, "consumer-tag-old", consumer);
-            log.info("Consumer for {} created!", nutriTrackQueue);
+            loggerConnections(nutriTrackQueue, channelV1);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -55,7 +55,7 @@ class RabbitMQListener {
         try {
             this.channelV3 = rabbitMQConnection.getConnection().createChannel();
             channelV3.basicConsume(nutriTrackQueueV3, true, "consumer-tag-v3", consumerV3);
-            log.info("Consumer for {} created!", nutriTrackQueueV3);
+            loggerConnections(nutriTrackQueueV3, channelV3);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -69,5 +69,9 @@ class RabbitMQListener {
         } catch (Exception e) {
             log.warn("Erro ao fechar canais RabbitMQ", e);
         }
+    }
+
+    private void loggerConnections(String queue, Channel channel) {
+        log.info("Channel {} created for consumer {}.", channel.getChannelNumber(), queue);
     }
 }

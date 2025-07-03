@@ -62,7 +62,7 @@ public class RabbitMQProducer {
     private void setChannel() {
         try {
             channel = rabbitMQConnection.getConnection().createChannel();
-            log.debug("Channel created!");
+            log.info("Channel {} created for publish.", channel.getChannelNumber());
         } catch (Exception e) {
             log.error(e.toString());
         }
