@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.concurrent.TimeoutException;
 
 @ApplicationScoped
 class RabbitMQListener {
@@ -39,6 +40,8 @@ class RabbitMQListener {
     private void onApplicationStart(@Observes StartupEvent event) {
         consume();
         consumeV3();
+
+        consumerV3.setRestartCallback(this::consumeV3);
     }
 
     private void consume() {
@@ -53,11 +56,18 @@ class RabbitMQListener {
 
     private void consumeV3() {
         try {
+            if (channelV3 != null && channelV3.isOpen()) {
+                channelV3.close();
+                log.info("Old channel V3 closed.");
+            }
+
             this.channelV3 = rabbitMQConnection.getConnection().createChannel(3);
             channelV3.basicConsume(nutriTrackQueueV3, true, "consumer-tag-v3", consumerV3);
             loggerConnections(nutriTrackQueueV3, channelV3);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        } catch (TimeoutException e) {
+            throw new RuntimeException(e);
         }
     }
 
