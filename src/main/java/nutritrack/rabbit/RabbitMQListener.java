@@ -43,7 +43,7 @@ class RabbitMQListener {
 
     private void consume() {
         try {
-            this.channelV1 = rabbitMQConnection.getConnection().createChannel();
+            this.channelV1 = rabbitMQConnection.getConnection().createChannel(1);
             channelV1.basicConsume(nutriTrackQueue, true, "consumer-tag-old", consumer);
             loggerConnections(nutriTrackQueue, channelV1);
         } catch (IOException e) {
@@ -53,7 +53,7 @@ class RabbitMQListener {
 
     private void consumeV3() {
         try {
-            this.channelV3 = rabbitMQConnection.getConnection().createChannel();
+            this.channelV3 = rabbitMQConnection.getConnection().createChannel(3);
             channelV3.basicConsume(nutriTrackQueueV3, true, "consumer-tag-v3", consumerV3);
             loggerConnections(nutriTrackQueueV3, channelV3);
         } catch (IOException e) {

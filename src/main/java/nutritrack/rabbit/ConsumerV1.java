@@ -29,36 +29,57 @@ class ConsumerV1 implements Consumer {
         this.eventPub = eventPub;
     }
 
+    /**
+     * Chamado quando o consumer foi registrado com sucesso.
+     * Pode ser útil para confirmar que o Rabbit aceitou o consumidor.
+     */
     @Override
     public void handleConsumeOk(String consumerTag) {
-        log.debug(consumerTag);
+        log.info("Consumer registrado com sucesso: {}", consumerTag);
     }
 
+    /**
+     * Chamado quando o cancelamento do consumer foi confirmado.
+     * Mas isso aqui é passivo — apenas confirma que o cancelamento foi OK.
+     */
     @Override
     public void handleCancelOk(String consumerTag) {
-        log.debug(consumerTag);
+        log.info("Cancelamento confirmado para o consumer: {}", consumerTag);
     }
 
+    /**
+     * Chamado quando o consumer é cancelado pelo Rabbit (ex: fila deletada, erro, etc).
+     */
     @Override
     public void handleCancel(String consumerTag) throws IOException {
-        log.debug(consumerTag);
+        log.warn("⚠️ Consumer cancelado pelo broker: {}", consumerTag);
+        // TODO: aqui pode iniciar lógica para recriar o canal/consumer
     }
 
+    /**
+     * Chamado quando o canal/consumer sofre um shutdown (ex: erro de rede, broker reinicia).
+     * Muito útil para detectar falhas silenciosas.
+     */
     @Override
     public void handleShutdownSignal(String consumerTag, ShutdownSignalException sig) {
-        log.debug(consumerTag);
+        log.error("Shutdown no consumer: {} | Motivo: {}", consumerTag, sig.getMessage(), sig);
+        log.info("Iniciador do shutdown: {}", sig.isInitiatedByApplication());
     }
 
+    /**
+     * Chamado quando o consumidor foi recuperado automaticamente (auto-recovery).
+     * Só é chamado se tiver ativado auto-recovery na connection factory.
+     */
     @Override
     public void handleRecoverOk(String consumerTag) {
-        log.debug(consumerTag);
+        log.info("Consumer recuperado automaticamente: {}", consumerTag);
     }
 
     @Override
     public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
         String messageString = new String(body, StandardCharsets.UTF_8);
 
-        log.debug("Received: {}", messageString);
+        log.info("Received: {}", messageString);
 
         try {
             JsonNode node = objectMapper.readTree(messageString);

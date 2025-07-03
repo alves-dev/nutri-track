@@ -2,6 +2,7 @@ package nutritrack.rabbit;
 
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import io.quarkiverse.rabbitmqclient.RabbitMQClient;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
@@ -17,22 +18,27 @@ class RabbitMQConnection {
 
     private final Connection connection;
 
-    RabbitMQConnection(@ConfigProperty(name = "quarkus.application.name") String applicationName,
-                       @ConfigProperty(name = "quarkus.rabbitmqclient.username") String username,
-                       @ConfigProperty(name = "quarkus.rabbitmqclient.password") String password,
-                       @ConfigProperty(name = "quarkus.rabbitmqclient.hostname") String hostname,
-                       @ConfigProperty(name = "quarkus.rabbitmqclient.port") int port) {
-        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(hostname);
-        factory.setUsername(username);
-        factory.setPassword(password);
-        factory.setPort(port);
-        factory.setRequestedHeartbeat(30);
-        try {
-            this.connection = factory.newConnection(applicationName);
-        } catch (TimeoutException | IOException e) {
-            throw new RuntimeException(e);
-        }
+//    RabbitMQConnection(@ConfigProperty(name = "quarkus.application.name") String applicationName,
+//                       @ConfigProperty(name = "quarkus.rabbitmqclient.username") String username,
+//                       @ConfigProperty(name = "quarkus.rabbitmqclient.password") String password,
+//                       @ConfigProperty(name = "quarkus.rabbitmqclient.hostname") String hostname,
+//                       @ConfigProperty(name = "quarkus.rabbitmqclient.port") int port) {
+//        ConnectionFactory factory = new ConnectionFactory();
+//        factory.setHost(hostname);
+//        factory.setUsername(username);
+//        factory.setPassword(password);
+//        factory.setPort(port);
+//        factory.setRequestedHeartbeat(30);
+//        try {
+//            this.connection = factory.newConnection(applicationName);
+//        } catch (TimeoutException | IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        log.info("Connection created: {}", connection);
+//    }
+
+    RabbitMQConnection(@ConfigProperty(name = "quarkus.application.name") String applicationName, RabbitMQClient rabbitMQClient) {
+        this.connection = rabbitMQClient.connect(applicationName);
         log.info("Connection created: {}", connection);
     }
 
