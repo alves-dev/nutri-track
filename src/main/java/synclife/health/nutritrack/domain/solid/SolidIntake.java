@@ -18,13 +18,6 @@ public class SolidIntake extends IntakeEntity {
     @Column(name = "weight", nullable = true)
     private int weight;
 
-    public SolidIntake(String meal, String food, int weight, String personId, LocalDateTime datetime) {
-        super(personId, datetime);
-        this.meal = meal;
-        this.food = food;
-        this.weight = weight;
-    }
-
     public SolidIntake(String meal, String food, String personId, LocalDateTime datetime) {
         super(personId, datetime);
         this.meal = meal;

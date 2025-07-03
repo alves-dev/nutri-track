@@ -12,7 +12,6 @@ import synclife.health.nutritrack.domain.solid.SolidIntake;
 import synclife.health.nutritrack.event.v1.EventLiquid;
 import synclife.health.nutritrack.event.v1.EventLiquidAcceptableV1;
 import synclife.health.nutritrack.event.v1.EventLiquidSummaryV1;
-import synclife.health.nutritrack.event.v1.EventSolid;
 import synclife.health.nutritrack.event.v3.EventHealthNutritionMealsV1;
 import synclife.health.nutritrack.rabbit.RabbitMQProducer;
 
@@ -40,11 +39,6 @@ public class IntakeService {
         LiquidIntake liquidIntake = new LiquidIntake(getLiquid(event.getLiquid()), event.getAmount(), event.getPersonId(), event.getDatetime());
         saveEntity(liquidIntake);
         publishLiquidSummaryEvent(event.getPersonId(), event.getDatetime());
-    }
-
-    public void processEventSolid(@Observes(during = AFTER_SUCCESS) final EventSolid event) {
-        SolidIntake solidIntake = new SolidIntake(event.getMeal(), event.getFood(), event.getWeight(), event.getPersonId(), event.getDatetime());
-        saveEntity(solidIntake);
     }
 
     public void processEventHealthNutritionMealsV1(@Observes(during = AFTER_SUCCESS) final EventHealthNutritionMealsV1 event) {

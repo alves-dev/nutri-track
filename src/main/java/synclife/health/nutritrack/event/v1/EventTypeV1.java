@@ -11,8 +11,6 @@ import java.util.Arrays;
 public enum EventTypeV1 implements EventType {
     HEALTH_NUTRI_TRACK_LIQUID_V1("HEALTH.NUTRI_TRACK.LIQUID.V1", EventFlow.CONSUMED,
             EventLiquid.class), // https://github.com/alves-dev/SyncLife/blob/main/events.md#event-healthnutri_trackliquidv1
-    HEALTH_NUTRI_TRACK_SOLID_V1("HEALTH.NUTRI_TRACK.SOLID.V1", EventFlow.CONSUMED,
-            EventSolid.class), // https://github.com/alves-dev/SyncLife/blob/main/events.md#event-healthnutri_tracksolidv1
     HEALTH_NUTRI_TRACK_LIQUID_SUMMARY_V1("HEALTH.NUTRI_TRACK.LIQUID_SUMMARY.V1", EventFlow.PRODUCED,
             EventLiquidSummaryV1.class), // https://github.com/alves-dev/SyncLife/blob/main/events.md#event-healthnutri_trackliquid_summaryv1
     HEALTH_NUTRI_TRACK_LIQUID_ACCEPTABLE_V1("HEALTH.NUTRI_TRACK.LIQUID_ACCEPTABLE.V1", EventFlow.PRODUCED,
