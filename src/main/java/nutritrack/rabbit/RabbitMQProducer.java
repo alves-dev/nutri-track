@@ -49,7 +49,9 @@ public class RabbitMQProducer {
     }
 
     private <T extends EventSync> void publishEvent(T event, String exchange, String routingKey) {
-        if (channel == null) setChannel();
+        if (channel == null || !channel.isOpen()) {
+            setChannel();
+        }
         try {
             byte[] body = objectMapper.writeValueAsBytes(event);
             channel.basicPublish(exchange, routingKey, null, body);
@@ -61,10 +63,14 @@ public class RabbitMQProducer {
 
     private void setChannel() {
         try {
+            if (channel != null && channel.isOpen()) {
+                log.warn("Channel was already open. Ignoring new creation");
+                return;
+            }
             channel = rabbitMQConnection.getConnection().createChannel(99);
             log.info("Channel {} created for publish.", channel.getChannelNumber());
         } catch (Exception e) {
-            log.error(e.toString());
+            log.error("Error when creating the publication channel", e);
         }
     }
 }
